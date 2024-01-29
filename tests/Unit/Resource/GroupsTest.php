@@ -5,12 +5,14 @@ declare(strict_types=1);
 namespace Fschmtt\Keycloak\Test\Unit\Resource;
 
 use Fschmtt\Keycloak\Collection\GroupCollection;
+use Fschmtt\Keycloak\Collection\UserCollection;
 use Fschmtt\Keycloak\Http\Command;
 use Fschmtt\Keycloak\Http\CommandExecutor;
 use Fschmtt\Keycloak\Http\Method;
 use Fschmtt\Keycloak\Http\Query;
 use Fschmtt\Keycloak\Http\QueryExecutor;
 use Fschmtt\Keycloak\Representation\Group;
+use Fschmtt\Keycloak\Representation\User;
 use Fschmtt\Keycloak\Resource\Groups;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
@@ -107,6 +109,38 @@ class GroupsTest extends TestCase
 
         $group = $groups->get('realm-with-groups', 'group-1');
         static::assertSame('group-1', $group->getId());
+    }
+
+    public function testGetGroupMembers() : void
+    {
+        $query = new Query(
+            '/admin/realms/{realm}/groups/{groupId}/members',
+            UserCollection::class,
+            [
+                'realm' => 'realm-with-groups',
+                'groupId' => 'test-group-id'
+            ]
+        );
+
+        $queryExecutorMock = $this->createMock(QueryExecutor::class);
+        $queryExecutorMock->expects(self::once())
+            ->method('executeQuery')
+            ->with($query)
+            ->willReturn(new UserCollection([
+                new User(username: 'test1'),
+                new User(username: 'test2')
+            ]));
+
+        $commandExecutorMock = $this->createMock(CommandExecutor::class);
+
+        $groups = new Groups($commandExecutorMock, $queryExecutorMock);
+        $groupMembers = $groups->members('realm-with-groups', 'test-group-id');
+
+        self::assertSame(2, $groupMembers->count());
+        self::assertInstanceOf(User::class, $groupMembers->first());
+        self::assertSame('test1', $groupMembers->first()->getUsername());
+
+
     }
 
     public function testCreateGroup(): void
