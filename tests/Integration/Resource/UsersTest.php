@@ -91,6 +91,14 @@ class UsersTest extends TestCase
         static::assertInstanceOf(Group::class, $userFirstGroup);
         static::assertSame($group->getId(), $userFirstGroup->getId());
 
+        //get group members
+        $groupMembers =  $groups->members('master', $group->getId());
+        self::assertGreaterThanOrEqual(1, $groupMembers->count());
+        $debug = $groupMembers->first();
+        self::assertInstanceOf(User::class, $debug);
+        self::assertSame($user->getId(), $groupMembers->first()->getId());
+
+
         // leave group
         $users->leaveGroup('master', $user->getId(), $group->getId());
 
