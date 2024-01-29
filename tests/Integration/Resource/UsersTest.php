@@ -92,7 +92,7 @@ class UsersTest extends TestCase
         static::assertSame($group->getId(), $userFirstGroup->getId());
 
         //get group members
-        $groupMembers =  $groups->members('master', $group->getId());
+        $groupMembers = $groups->members('master', $group->getId());
         self::assertGreaterThanOrEqual(1, $groupMembers->count());
         self::assertInstanceOf(User::class, $groupMembers->first());
         self::assertSame($user->getId(), $groupMembers->first()->getId());
