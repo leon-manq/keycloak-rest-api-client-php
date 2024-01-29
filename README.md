@@ -103,24 +103,20 @@ $myCustomRepresentation = $myCustomResource->myCustomEndpoint();
 ```
 
 ## Available Resources
+### [Attack Detection](https://www.keycloak.org/docs-api/23.0.0/rest-api/index.html#_attack_detection_resource)
+| Endpoint | Response | API |
+|----------|----------|-----|
+| `DELETE /admin/realms/{realm}/attack-detection/brute-force/users` | `n/a` | [AttackDetection::clear()](src/Resource/AttackDetection.php) |
+| `GET /admin/realms/{realm}/attack-detection/brute-force/users/{userId}` | [Map](src/Type/Map.php) | [AttackDetection::userStatus()](src/Resource/AttackDetection.php) |
+| `DELETE /admin/realms/{realm}/attack-detection/brute-force/users/{userId}` | `n/a` | [AttackDetection::clearUser()](src/Resource/AttackDetection.php) |
 
-### [Attack Detection](https://www.keycloak.org/docs-api/26.0.0/rest-api/index.html#_attack_detection)
-
-| Endpoint                                                                   | Response                | API                                                               |
-|----------------------------------------------------------------------------|-------------------------|-------------------------------------------------------------------|
-| `DELETE /admin/realms/{realm}/attack-detection/brute-force/users`          | `n/a`                   | [AttackDetection::clear()](src/Resource/AttackDetection.php)      |
-| `GET /admin/realms/{realm}/attack-detection/brute-force/users/{userId}`    | [Map](src/Type/Map.php) | [AttackDetection::userStatus()](src/Resource/AttackDetection.php) |
-| `DELETE /admin/realms/{realm}/attack-detection/brute-force/users/{userId}` | `n/a`                   | [AttackDetection::clearUser()](src/Resource/AttackDetection.php)  |
-
-### [Clients](https://www.keycloak.org/docs-api/26.0.0/rest-api/index.html#_clients)
-
-| Endpoint                                                       | Response                                                | API                                                    |
-|----------------------------------------------------------------|---------------------------------------------------------|--------------------------------------------------------|
-| `GET /admin/realms/{realm}/clients`                            | [ClientCollection](src/Collection/ClientCollection.php) | [Clients::all()](src/Resource/Clients.php)             |
-| `GET /admin/realms/{realm}/clients/{client-uuid}`              | [Client](src/Representation/Client.php)                 | [Clients::get()](src/Resource/Clients.php)             |
-| `PUT /admin/realms/{realm}/clients/{client-uuid}`              | [Client](src/Representation/Client.php)                 | [Clients::update()](src/Resource/Clients.php)          |
-| `POST /admin/realms/{realm}/clients`                           | [Client](src/Representation/Client.php)                 | [Clients::import()](src/Resource/Clients.php)          |
-| `GET /admin/realms/{realm}/clients/{clientUuid}/client-secret` | [Client](src/Representation/Client.php)                 | [Clients::getClientSecret()](src/Resource/Clients.php) |
+### [Clients](https://www.keycloak.org/docs-api/23.0.0/rest-api/index.html#_clients_resource)
+| Endpoint | Response | API |
+|----------|----------|-----|
+| `GET /admin/realms/{realm}/clients` | [ClientCollection](src/Collection/ClientCollection.php) | [Clients::all()](src/Resource/Clients.php) |
+| `GET /admin/realms/{realm}/clients/{id}` | [Client](src/Representation/Client.php) | [Clients::get()](src/Resource/Clients.php) |
+| `PUT /admin/realms/{realm}/clients/{id}` | [Client](src/Representation/Client.php) | [Clients::update()](src/Resource/Clients.php) |
+| `POST /admin/realms/{realm}/clients` | [Client](src/Representation/Client.php) | [Clients::import()](src/Resource/Clients.php) |
 
 ### [Groups](https://www.keycloak.org/docs-api/26.0.0/rest-api/index.html#_clients)
 
@@ -129,6 +125,7 @@ $myCustomRepresentation = $myCustomResource->myCustomEndpoint();
 | `GET /admin/realms/{realm}/groups`                | [GroupCollection](src/Collection/GroupCollection.php) | [Groups::all()](src/Resource/Groups.php)      |
 | `GET /admin/realms/{realm}/groups/{id}/children`  | [GroupCollection](src/Collection/GroupCollection.php) | [Groups::children()](src/Resource/Groups.php) |
 | `GET /admin/realms/{realm}/groups/{id}`           | [Group](src/Representation/Group.php)                 | [Groups::get()](src/Resource/Groups.php)      |
+| `GET /admin/realms/{realm}/groups/{id}/members`   | [UserCollection](src/Collection/UserCollection.php)  | [Groups::mebers()](src/Resource/Groups.php)  |
 | `PUT /admin/realms/{realm}/groups/{id}`           | `n/a`                                                 | [Groups::update()](src/Resource/Groups.php)   |
 | `POST /admin/realms/{realm}/groups`               | `n/a`                                                 | [Groups::create()](src/Resource/Groups.php)   |
 | `POST /admin/realms/{realm}/groups/{id}/children` | `n/a`                                                 | [Groups::create()](src/Resource/Groups.php)   |
