@@ -5,11 +5,13 @@ declare(strict_types=1);
 namespace Fschmtt\Keycloak\Resource;
 
 use Fschmtt\Keycloak\Collection\GroupCollection;
+use Fschmtt\Keycloak\Collection\UserCollection;
 use Fschmtt\Keycloak\Http\Command;
 use Fschmtt\Keycloak\Http\Criteria;
 use Fschmtt\Keycloak\Http\Method;
 use Fschmtt\Keycloak\Http\Query;
 use Fschmtt\Keycloak\Representation\Group;
+use Fschmtt\Keycloak\Representation\User;
 
 class Groups extends Resource
 {
@@ -54,6 +56,18 @@ class Groups extends Resource
                 ],
             ),
         );
+    }
+
+    public function members(string $realm, string $groupId) : UserCollection
+    {
+        return $this->queryExecutor->executeQuery(new Query(
+            '/admin/realms/{realm}/groups/{groupId}/members',
+            UserCollection::class,
+            [
+                'realm' => $realm,
+                'groupId' => $groupId
+            ]
+        ));
     }
 
     public function create(string $realm, Group $group): void
