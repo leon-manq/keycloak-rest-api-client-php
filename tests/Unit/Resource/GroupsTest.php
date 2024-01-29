@@ -111,14 +111,14 @@ class GroupsTest extends TestCase
         static::assertSame('group-1', $group->getId());
     }
 
-    public function testGetGroupMembers() : void
+    public function testGetGroupMembers(): void
     {
         $query = new Query(
             '/admin/realms/{realm}/groups/{groupId}/members',
             UserCollection::class,
             [
                 'realm' => 'realm-with-groups',
-                'groupId' => 'test-group-id'
+                'groupId' => 'test-group-id',
             ]
         );
 
@@ -128,7 +128,7 @@ class GroupsTest extends TestCase
             ->with($query)
             ->willReturn(new UserCollection([
                 new User(username: 'test1'),
-                new User(username: 'test2')
+                new User(username: 'test2'),
             ]));
 
         $commandExecutorMock = $this->createMock(CommandExecutor::class);
@@ -139,8 +139,6 @@ class GroupsTest extends TestCase
         self::assertSame(2, $groupMembers->count());
         self::assertInstanceOf(User::class, $groupMembers->first());
         self::assertSame('test1', $groupMembers->first()->getUsername());
-
-
     }
 
     public function testCreateGroup(): void

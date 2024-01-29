@@ -11,7 +11,6 @@ use Fschmtt\Keycloak\Http\Criteria;
 use Fschmtt\Keycloak\Http\Method;
 use Fschmtt\Keycloak\Http\Query;
 use Fschmtt\Keycloak\Representation\Group;
-use Fschmtt\Keycloak\Representation\User;
 
 class Groups extends Resource
 {
@@ -58,14 +57,14 @@ class Groups extends Resource
         );
     }
 
-    public function members(string $realm, string $groupId) : UserCollection
+    public function members(string $realm, string $groupId): UserCollection
     {
         return $this->queryExecutor->executeQuery(new Query(
             '/admin/realms/{realm}/groups/{groupId}/members',
             UserCollection::class,
             [
                 'realm' => $realm,
-                'groupId' => $groupId
+                'groupId' => $groupId,
             ]
         ));
     }
